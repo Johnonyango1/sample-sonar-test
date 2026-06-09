@@ -9,17 +9,16 @@ on:
 
 jobs:
   sonar-scan:
-    # runs-on: [self-hosted, uhc]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Build with Maven
@@ -27,7 +26,7 @@ jobs:
 
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_TEST }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DEV }}
         run: |
           mvn sonar:sonar \
             -Dsonar.projectKey=sonar-sample-dev \
@@ -35,5 +34,5 @@ jobs:
             -Dsonar.sources=src/main/java \
             -Dsonar.tests=src/test/java \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.host.url=https://germproof-stegosaur-sequence.ngrok-free.dev \
-            -Dsonar.token=$SONAR_TOKEN_TEST
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.token=$SONAR_TOKEN
