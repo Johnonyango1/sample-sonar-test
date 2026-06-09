@@ -1,0 +1,38 @@
+name: SonarQube DEV Scan
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  sonar-scan:
+    runs-on: [self-hosted, uhc]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean verify
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_TEST }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=sonar-sample-dev \
+            -Dsonar.projectName="SonarQube Sample DEV" \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.host.url=http://10.104.115.17:9000 \
+            -Dsonar.token=$SONAR_TOKEN_TEST
