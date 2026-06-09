@@ -30,7 +30,7 @@ jobs:
 
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_DEV }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_TEST }}
         run: |
           mvn sonar:sonar \
             -Dsonar.projectKey=sonar-sample-dev \
