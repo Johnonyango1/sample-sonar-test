@@ -9,7 +9,8 @@ on:
 
 jobs:
   sonar-scan:
-    runs-on: [self-hosted, uhc]
+    # runs-on: [self-hosted, uhc]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -34,5 +35,5 @@ jobs:
             -Dsonar.sources=src/main/java \
             -Dsonar.tests=src/test/java \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.host.url=http://10.104.115.17:9000 \
+            -Dsonar.host.url=https://germproof-stegosaur-sequence.ngrok-free.dev \
             -Dsonar.token=$SONAR_TOKEN_TEST
