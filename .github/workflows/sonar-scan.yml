@@ -38,5 +38,5 @@ jobs:
             -Dsonar.sources=src/main/java \
             -Dsonar.tests=src/test/java \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.host.url=${{ variables.SONAR_HOST_URL }} \
             -Dsonar.token=$SONAR_TOKEN
